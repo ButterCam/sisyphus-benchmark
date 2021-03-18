@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package bybutter.sisyphus.benchmark;
+
+option java_package = "com.bybutter.sisyphus.benchmark";
+
+message BenchmarkDataset {
+
+  string name = 1;
+
+  string message_name = 2;
+
+  repeated bytes payload = 3;
+}

@@ -24,5 +24,6 @@ dependencies {
 jmh {
     warmupIterations.set(2)
     iterations.set(5)
+    resultFormat.set("JSON")
     fork.set(2)
 }

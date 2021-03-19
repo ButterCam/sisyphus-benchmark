@@ -1,14 +1,13 @@
-package com.bybutter.sisyphus.benchmark.sisyphus
+package com.bybutter.sisyphus.benchmark.official
 
-import com.bybutter.sisyphus.benchmark.datasets.GoogleMessage1
-import com.bybutter.sisyphus.benchmark.datasets.GoogleMessage1SubMessage
+import com.bybutter.sisyphus.benchmark.datasets.BenchmarkMessage1Proto3
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.State
 
 @State(Scope.Benchmark)
-open class BenchmarkRunner {
-    private val message = GoogleMessage1 {
+open class OfficialRunner {
+    private val message = BenchmarkMessage1Proto3.GoogleMessage1.newBuilder().apply {
         field1 = "sisyphus benchmark"
         field9 = """
             Due to analyzing product documents completely, it is not particularly difficult to write an exquisite and easy-to-use API at the beginning for most APIs.
@@ -28,10 +27,11 @@ open class BenchmarkRunner {
         field280 = 0
         field22 = 9223372036854775807
         field4 = ""
-        field5 += 123456U
-        field5 += 0U
-        field5 += 2147483647U
-        field5 += 9223372036854775807U
+        addField5(123456)
+        addField5(123456)
+        addField5(0)
+        addField5(2147483647)
+        addField5(9223372036854775807)
         field7 = ""
         field16 = -2147483648
         field130 = -1
@@ -53,7 +53,7 @@ open class BenchmarkRunner {
         field23 = 23
         field24 = false
         field25 = 25
-        field15 = GoogleMessage1SubMessage {
+        field15 = BenchmarkMessage1Proto3.GoogleMessage1SubMessage.newBuilder().apply {
             field1 = 1
             field2 = 2
             field3 = 3
@@ -65,16 +65,16 @@ open class BenchmarkRunner {
             field19 = 19
             field20 = false
             field28 = false
-            field21 = 21U
+            field21 = 21
             field22 = 22
             field23 = false
             field206 = false
-            field203 = 203U
+            field203 = 203
             field204 = 204
             field205 = "205"
-            field207 = 207U
-            field300 = 300U
-        }
+            field207 = 207
+            field300 = 300
+        }.build()
         field78 = false
         field67 = 67
         field68 = 68
@@ -82,16 +82,16 @@ open class BenchmarkRunner {
         field129 =
             "Sisyphus is the way how we provide backend services. It integrates all tools and libraries needed for designing API which follows the Google API Improvement Proposals."
         field131 = 131
-    }
-    private val data = message.toProto()
+    }.build()
+    private val data = message.toByteArray()
 
     @Benchmark
     fun serialize() {
-        message.toProto()
+        message.toByteArray()
     }
 
     @Benchmark
     fun deserialize() {
-        GoogleMessage1.parse(data)
+        BenchmarkMessage1Proto3.GoogleMessage1.parseFrom(data)
     }
 }

@@ -36,4 +36,5 @@ jmh {
     iterations.set(5)
     resultFormat.set("JSON")
     fork.set(2)
+    humanOutputFile.set(buildDir.resolve("results/jmh/human.txt"))
 }

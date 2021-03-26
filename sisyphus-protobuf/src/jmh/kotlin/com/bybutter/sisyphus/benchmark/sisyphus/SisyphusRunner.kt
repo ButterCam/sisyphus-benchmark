@@ -2,9 +2,16 @@ package com.bybutter.sisyphus.benchmark.sisyphus
 
 import com.bybutter.sisyphus.benchmark.datasets.GoogleMessage1
 import com.bybutter.sisyphus.benchmark.datasets.GoogleMessage1SubMessage
+import com.bybutter.sisyphus.io.FixedByteArrayOutputStream
+import com.bybutter.sisyphus.protobuf.coded.MeasureWriter
+import com.bybutter.sisyphus.protobuf.coded.PredictWriter
+import com.bybutter.sisyphus.protobuf.coded.StreamWriter
 import org.openjdk.jmh.annotations.Benchmark
 import org.openjdk.jmh.annotations.Scope
 import org.openjdk.jmh.annotations.State
+import java.io.ByteArrayOutputStream
+import java.io.OutputStream
+import java.nio.ByteBuffer
 
 @State(Scope.Benchmark)
 open class SisyphusRunner {
@@ -85,13 +92,21 @@ open class SisyphusRunner {
     }
     private val data = message.toProto()
 
-    @Benchmark
-    fun serialize() {
-        message.toProto()
+    fun operatePredict() {
+        val message = GoogleMessage1.parse(data)
+        val writer = PredictWriter().message(message)
+        val stream = ByteArrayOutputStream()
+        writer.writeTo(stream)
+        val byteArray = stream.toByteArray()
     }
 
     @Benchmark
-    fun deserialize() {
-        GoogleMessage1.parse(data)
+    fun operateStream() {
+        val message = GoogleMessage1.parse(data)
+        val measurer = MeasureWriter()
+        measurer.message(message)
+        val stream = FixedByteArrayOutputStream(measurer.length())
+        StreamWriter(stream, measurer.mark()).message(message)
+        val byteArray = stream.data()
     }
 }

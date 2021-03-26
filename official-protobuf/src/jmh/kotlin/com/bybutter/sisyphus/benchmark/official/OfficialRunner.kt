@@ -86,12 +86,8 @@ open class OfficialRunner {
     private val data = message.toByteArray()
 
     @Benchmark
-    fun serialize() {
+    fun operate() {
+        val message = BenchmarkMessage1Proto3.GoogleMessage1.parseFrom(data)
         message.toByteArray()
-    }
-
-    @Benchmark
-    fun deserialize() {
-        BenchmarkMessage1Proto3.GoogleMessage1.parseFrom(data)
     }
 }

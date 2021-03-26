@@ -15,7 +15,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    api("com.bybutter.sisyphus:sisyphus-protobuf:1.1.2")
+    api("com.bybutter.sisyphus:sisyphus-protobuf:1.2.1")
     implementation(kotlin("stdlib"))
 
     proto(project(":datasets"))
@@ -26,4 +26,5 @@ jmh {
     iterations.set(5)
     resultFormat.set("JSON")
     fork.set(2)
+    humanOutputFile.set(buildDir.resolve("results/jmh/human.txt"))
 }
